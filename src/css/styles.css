@@ -96,6 +96,11 @@ img {
   margin-top: 3px;
 }
 
+.hidden {
+  display: none;
+}
+
+
 /*------------- Libraries ------------*/
 
 .iziToast {

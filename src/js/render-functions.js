@@ -3,36 +3,34 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 let lightbox;
 
-export function renderGallery(images) {
+export function renderGallery(images, append = false) {
     const gallery = document.querySelector(".gallery");
-    gallery.innerHTML = "";
+    if (!gallery) return;
 
-    const markup = images
-        .map(
-            ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
-                `<a href="${largeImageURL}" class="gallery-item">
-            <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+    if (!append) {
+        gallery.innerHTML = "";
+    }
+
+    const markup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
+        `<a href="${largeImageURL}" class="gallery-item">
+            <img src="${webformatURL}" alt="${tags}" />
             <div class="info">
-                <p><span class="label">Likes</span><span class="value">${likes}</span></p>
-                <p><span class="label">Views</span><span class="value">${views}</span></p>
-                <p><span class="label">Comments</span><span class="value">${comments}</span></p>
-                <p><span class="label">Downloads</span><span class="value">${downloads}</span></p>
+                <p><span class="label">Likes:</span> ${likes}</p>
+                <p><span class="label">Views:</span> ${views}</p>
+                <p><span class="label">Comments:</span> ${comments}</p>
+                <p><span class="label">Downloads:</span> ${downloads}</p>
             </div>
         </a>`
-        )
-        .join('');
+    ).join('');
 
     gallery.insertAdjacentHTML("beforeend", markup);
 
     if (!lightbox) {
-        lightbox = new SimpleLightbox('.gallery a', {
+        lightbox = new SimpleLightbox(".gallery a", {
             captions: true,
-            captionsData: `alt`,
+            captionsData: "alt",
             captionDelay: 250,
-        })
+        });
     }
-
-    setTimeout(() => {
-        lightbox.refresh();
-    }, 100);
+    lightbox.refresh();
 }
